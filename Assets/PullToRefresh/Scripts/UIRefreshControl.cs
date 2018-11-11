@@ -33,11 +33,11 @@ namespace PullToRefresh
     {
         [Serializable] public class RefreshControlEvent : UnityEvent {}
 
-        [SerializeField] RefreshControlEvent m_OnRefresh = new RefreshControlEvent();
         [SerializeField] private ScrollRect m_ScrollRect;
         [SerializeField] private float m_PullDistanceRequiredRefresh = 150f;
         [SerializeField] private Transform m_TransIconLoading;
         [SerializeField] private float m_LoadingSpeed = 200f;
+        [SerializeField] RefreshControlEvent m_OnRefresh = new RefreshControlEvent();
 
 
         private float m_InitialPosition;
