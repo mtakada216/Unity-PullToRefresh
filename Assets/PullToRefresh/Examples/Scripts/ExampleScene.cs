@@ -26,4 +26,10 @@ public class ExampleScene : MonoBehaviour
         // Call EndRefreshing() when refresh is over.
         m_UIRefreshControl.EndRefreshing();
     }
+
+    // Register the callback you want to call to OnRefresh when refresh starts.
+    public void OnRefreshCallback()
+    {
+        Debug.Log("OnRefresh called.");
+    }
 }

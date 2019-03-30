@@ -80,7 +80,7 @@ LightmapSettings:
     m_PVRFilterTypeDirect: 0
     m_PVRFilterTypeIndirect: 0
     m_PVRFilterTypeAO: 0
-    m_PVRFilteringMode: 1
+    m_PVRFilteringMode: 2
     m_PVRCulling: 1
     m_PVRFilteringGaussRadiusDirect: 1
     m_PVRFilteringGaussRadiusIndirect: 5
@@ -1287,15 +1287,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4464b07df57134c1caf78af2190a4851, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_OnRefresh:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: PullToRefresh.UIRefreshControl+RefreshControlEvent, Assembly-CSharp,
-      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   m_ScrollRect: {fileID: 654611965}
   m_PullDistanceRequiredRefresh: 120
   m_TransIconLoading: {fileID: 2131503842}
   m_LoadingSpeed: 240
+  m_OnRefresh:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 330597997}
+        m_MethodName: OnRefreshCallback
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: PullToRefresh.UIRefreshControl+RefreshControlEvent, Assembly-CSharp,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!1 &730358462
 GameObject:
   m_ObjectHideFlags: 0

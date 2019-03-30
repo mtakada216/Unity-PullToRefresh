@@ -64,7 +64,7 @@ namespace PullToRefresh
         }
 
         /// <summary>
-        /// Callback executed when pulled more than required distance.
+        /// Callback executed when refresh started.
         /// </summary>
         public RefreshControlEvent OnRefresh
         {
@@ -130,17 +130,18 @@ namespace PullToRefresh
                 return;
             }
 
-            if (m_IsPulled && !m_ScrollView.Dragging)
-            {
-                m_IsRefreshing = true;
-                m_OnRefresh.Invoke();
-            }
-
             m_Progress = distance / m_PullDistanceRequiredRefresh;
 
             if (m_Progress < 1f)
             {
                 return;
+            }
+
+            // Start Refreshing.
+            if (m_IsPulled && !m_ScrollView.Dragging)
+            {
+                m_IsRefreshing = true;
+                m_OnRefresh.Invoke();
             }
 
             m_Progress = 0f;
