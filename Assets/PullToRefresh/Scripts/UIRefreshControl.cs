@@ -34,8 +34,7 @@ namespace PullToRefresh
 
         [SerializeField] private ScrollRect m_ScrollRect;
         [SerializeField] private float m_PullDistanceRequiredRefresh = 150f;
-        [SerializeField] private Transform m_TransIconLoading;
-        [SerializeField] private float m_LoadingSpeed = 200f;
+        [SerializeField] private Animator m_LoadingAnimator;
         [SerializeField] RefreshControlEvent m_OnRefresh = new RefreshControlEvent();
 
 
@@ -71,14 +70,17 @@ namespace PullToRefresh
             set { m_OnRefresh = value; }
         }
 
-        /// <summary>
+         /// <summary>
         /// Call When Refresh is End.
         /// </summary>
         public void EndRefreshing()
         {
             m_IsPulled = false;
             m_IsRefreshing = false;
+            m_LoadingAnimator.SetBool(_activityIndicatorStartLoadingName, false);
         }
+
+        const string _activityIndicatorStartLoadingName = "Loading";
 
         private void Start()
         {
@@ -94,8 +96,6 @@ namespace PullToRefresh
             {
                 return;
             }
-
-            m_TransIconLoading.Rotate(-Vector3.forward * Time.deltaTime * m_LoadingSpeed);
 
             if (!m_IsRefreshing)
             {
@@ -136,7 +136,14 @@ namespace PullToRefresh
                 return;
             }
 
-            // Start Refreshing.
+            // Start animation when you reach the required distance while dragging.
+            if (m_ScrollView.Dragging)
+            {
+                m_IsPulled = true;
+                m_LoadingAnimator.SetBool(_activityIndicatorStartLoadingName, true);
+            }
+
+            // ドラッグした状態で必要距離に達したあとに、指を離したらリフレッシュ開始
             if (m_IsPulled && !m_ScrollView.Dragging)
             {
                 m_IsRefreshing = true;
@@ -144,18 +151,11 @@ namespace PullToRefresh
             }
 
             m_Progress = 0f;
-            m_IsPulled = true;
         }
 
         private float GetContentAnchoredPosition()
         {
-            if (m_ScrollRect.vertical && !m_ScrollRect.horizontal)
-            {
-                return m_ScrollRect.content.anchoredPosition.y;
-            }
-
-            Debug.LogError("PullToRefresh works vertical scroll.");
-            return -1f;
+            return m_ScrollRect.content.anchoredPosition.y;
         }
     }
 }
