@@ -21,6 +21,6 @@ MIT
 
 ## Author
 [kiepng](https://github.com/kiepng)
-## Improvement with
+## Improver
 [AFRA](https://github.com/afraism)
 
