@@ -22,3 +22,10 @@ MIT
 ## Author
 [kiepng](https://github.com/kiepng)
 
+## Improver
+[AFRA](https://github.com/afraism)
+
+## improvements
+1. Remove `LateUpdate()` which optimized performance
+2. Replacing `LateUpdate()` with a new approach that has solved the refresh stock problem.
+

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -30,7 +30,7 @@ namespace PullToRefresh
 {
     public class UIRefreshControl : MonoBehaviour
     {
-        [Serializable] public class RefreshControlEvent : UnityEvent {}
+        [Serializable] public class RefreshControlEvent : UnityEvent { }
 
         [SerializeField] private ScrollRect m_ScrollRect;
         [SerializeField] private float m_PullDistanceRequiredRefresh = 150f;
@@ -70,11 +70,12 @@ namespace PullToRefresh
             set { m_OnRefresh = value; }
         }
 
-         /// <summary>
+        /// <summary>
         /// Call When Refresh is End.
         /// </summary>
         public void EndRefreshing()
         {
+            m_ScrollRect.vertical = true;
             m_IsPulled = false;
             m_IsRefreshing = false;
             m_LoadingAnimator.SetBool(_activityIndicatorStartLoadingName, false);
@@ -88,21 +89,6 @@ namespace PullToRefresh
             m_PositionStop = new Vector2(m_ScrollRect.content.anchoredPosition.x, m_InitialPosition - m_PullDistanceRequiredRefresh);
             m_ScrollView = m_ScrollRect.GetComponent<IScrollable>();
             m_ScrollRect.onValueChanged.AddListener(OnScroll);
-        }
-
-        private void LateUpdate()
-        {
-            if (!m_IsPulled)
-            {
-                return;
-            }
-
-            if (!m_IsRefreshing)
-            {
-                return;
-            }
-
-            m_ScrollRect.content.anchoredPosition = m_PositionStop;
         }
 
         private void OnScroll(Vector2 normalizedPosition)
@@ -143,11 +129,13 @@ namespace PullToRefresh
                 m_LoadingAnimator.SetBool(_activityIndicatorStartLoadingName, true);
             }
 
-            // ドラッグした状態で必要距離に達したあとに、指を離したらリフレッシュ開始
             if (m_IsPulled && !m_ScrollView.Dragging)
             {
+                m_ScrollRect.vertical = false;
+                m_ScrollRect.content.anchoredPosition = m_PositionStop;
                 m_IsRefreshing = true;
                 m_OnRefresh.Invoke();
+                m_IsPulled = false;
             }
 
             m_Progress = 0f;
